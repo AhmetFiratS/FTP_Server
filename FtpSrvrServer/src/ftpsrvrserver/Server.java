@@ -101,6 +101,28 @@ public class Server {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static File downloadfile(String username,String filename){
+        File root = new File("C:\\"+username);
+        File[] listFiles = root.listFiles();
+        for (File file : listFiles) {
+            if (file.getName().equals(filename)) {
+                return file;
+            }
+        }
+        return null;
+    }
+    
+    public static boolean DeleteFile(String username,String filename){
+        File root = new File("C:\\"+username);
+        File[] listFiles = root.listFiles();
+        for (File file : listFiles) {
+            if (file.getName().equals(filename)) {
+                return file.delete();
+            }
+        }
+        return false;
+    }
 
     public static boolean SignUp(String usern, String pass) {
         for (Info i : Infos) {
@@ -164,6 +186,12 @@ public class Server {
 
     public static void createFolder(String username) {
         new File("C:\\" + username).mkdir();
+    }
+    
+    public static String [] FileCheck(String username){
+        File file=new File("C:\\" + username);
+        String[] list = file.list();
+        return list;
     }
 
     public static void Display(String msg) {

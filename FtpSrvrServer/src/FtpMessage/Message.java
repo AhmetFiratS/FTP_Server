@@ -10,7 +10,7 @@ package FtpMessage;
  * @author ahmet
  */
 public class Message implements java.io.Serializable {
-    public static enum Message_Type {None,Hata, Login,SignUp, Disconnect, UploadFile, DownloadFile, FileList }
+    public static enum Message_Type {None,Hata, Login,SignUp, Disconnect, UploadFile, DownloadFile, FileList,DeleteFile }
     
     public Message_Type type;
     public Object content;

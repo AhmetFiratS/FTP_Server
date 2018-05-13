@@ -74,7 +74,12 @@ public class SClient {
                     //mesaj tipine göre işlemlere ayır
                     switch (received.type) {
                         
-                        case Disconnect:
+                        case DownloadFile:
+                            String [] Down_packet=(String []) received.content;
+                            File downloadFile=Server.downloadfile(Down_packet[0],Down_packet[1]);
+                            Message down_msg=new Message(Message.Message_Type.DownloadFile);
+                            down_msg.content=downloadFile;
+                            Server.Send(TheClient, down_msg);
                             break;
                         case Login:
                             String [] Lpacket = (String[]) received.content;
@@ -101,7 +106,22 @@ public class SClient {
                             up_msg.content=x;
                             Server.Send(TheClient, up_msg);
                             break;
-                        
+                        case FileList:
+                            String FL_username=(String) received.content;
+                            String [] Flist=Server.FileCheck(FL_username);
+                            Message FL_msg = new Message(Message.Message_Type.FileList);
+                            FL_msg.content=Flist;
+                            Server.Send(TheClient, FL_msg);
+                            break;
+                        case DeleteFile:
+                            String [] Delete_pack =(String []) received.content;
+                            boolean Delete_flag=Server.DeleteFile(Delete_pack[0], Delete_pack[1]);
+                            String [] newFlist=Server.FileCheck(Delete_pack[0]);
+                            Message Delete_msg=new Message(Message.Message_Type.DeleteFile);
+                            Object [] D_container={Delete_flag , newFlist};
+                            Delete_msg.content=D_container;
+                            Server.Send(TheClient, Delete_msg);
+                            break;
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(SClient.class.getName()).log(Level.SEVERE, null, ex);
